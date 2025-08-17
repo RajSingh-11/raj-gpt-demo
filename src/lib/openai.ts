@@ -126,7 +126,7 @@ export async function callOpenAI(
         model,
         messages,
         temperature,
-        max_tokens: 2000,
+        max_completion_tokens: 2000,
         stream: false,
       }),
     });
