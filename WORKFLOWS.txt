@@ -1,0 +1,75 @@
+1. Simple prompt : Text input will directly call the Open AI API and get the response
+
+2. Web search : If web search is enabled, we should enable a web_search tool in open ai.
+
+  curl "https://api.openai.com/v1/responses" \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer $OPENAI_API_KEY" \
+    -d '{
+        "model": "gpt-5",
+        "tools": [{"type": "web_search_preview"}],
+        "input": "what was a positive news story from today?"
+    }'
+
+Output : [
+    {
+        "type": "web_search_call",
+        "id": "ws_67c9fa0502748190b7dd390736892e100be649c1a5ff9609",
+        "status": "completed"
+    },
+    {
+        "id": "msg_67c9fa077e288190af08fdffda2e34f20be649c1a5ff9609",
+        "type": "message",
+        "status": "completed",
+        "role": "assistant",
+        "content": [
+            {
+                "type": "output_text",
+                "text": "On March 6, 2025, several news...",
+                "annotations": [
+                    {
+                        "type": "url_citation",
+                        "start_index": 2606,
+                        "end_index": 2758,
+                        "url": "https://...",
+                        "title": "Title..."
+                    }
+                ]
+            }
+        ]
+    }
+]
+
+
+3. Image generation : Dall-E model for image generation
+
+import OpenAI from "openai";
+const openai = new OpenAI();
+
+const response = await openai.responses.create({
+    model: "gpt-5",
+    input: "Generate an image of gray tabby cat hugging an otter with an orange scarf",
+    tools: [{type: "image_generation"}],
+});
+
+// Save the image to a file
+const imageData = response.output
+  .filter((output) => output.type === "image_generation_call")
+  .map((output) => output.result);
+
+if (imageData.length > 0) {
+  const imageBase64 = imageData[0];
+  const fs = await import("fs");
+  fs.writeFileSync("otter.png", Buffer.from(imageBase64, "base64"));
+}
+
+Images must be saved to media storage bucket. 
+
+
+4. If someone enables Any of the personas, the respective system prompts for that persona will be sent in the api call.
+
+System Prompts input
+
+5. If someone enables Music mode, generate music from elevenlabs and play it in a preview as audio player in the conversation. 
+
+6. If someone clicks on the microphone icon, It should take the command via voice and get the response in text 
