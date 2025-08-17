@@ -1,0 +1,139 @@
+
+You are building AKHILGPT, a sleek ChatGPT-style LLM wrapper with a personal flair.
+Scope: frontend only (no real API calls—wire actions to stubs). Use Next.js + React + TypeScript + Tailwind with small, composable components. Prefer shadcn/ui for primitives and lucide-react for icons.
+
+## Core UX & Layout
+Header
+
+Left: a Theme Switcher (icon + name) that swaps primary color, background, and font per theme (see “Marvel Themes” below). Persist selection in localStorage.
+
+Right: an “Essential” dropdown (label: “Essential ▾”). Menu items, top-right aligned:
+
+Add attachment (accept multiple files; preview chips)
+Web search (toggle on/off; show “beta” pill)
+Voice search (mic button; show recording state)
+Image generation (opens side panel with prompt input)
+Share/Export → submenu: Markdown (.md) and PDF (.pdf) (stub: create and download dummy files)
+Main
+
+Centered chat column (max-width 840px) with message bubbles (assistant/user), timestamps, copy button, and “regenerating…” skeletons.
+
+Composer fixed at bottom:
+
+Multiline text area with / command hint.
+Send button, Stop button (disabled when idle).
+Personalised Modes panel directly under the text input (collapsible “Personalised” section; open by default on first load):
+
+Personas (select one; pill chips): Maths Tutor, Test Cases Generator, Finance Analyst, Cybersecure Specialist
+Music Mode (toggle group): ElevenLabs, Suno (front-end only; show disclaimer “stubbed”)
+Game Mode (toggle). Hint text: “Type a game idea; builder will scaffold steps.”
+Translators (language select: EN, HI, ES, FR, DE, JA; multi-select adds language chips)
+Empty state: mascot + “Say hi to AKHILGPT” with quick prompts (chips).
+
+## Marvel Themes (tokens)
+Implement a theme system with tokens:
+
+
+type ThemeKey = 'ironMan'|'hulk'|'captainAmerica'|'spiderMan'|'blackPanther'|'doctorStrange'|'thor';
+
+interface ThemeTokens {
+  name: string;
+  primary: string;       // buttons/links
+  background: string;    // page bg
+  surface: string;       // cards/bubbles
+  text: string;          // primary text
+  accent: string;        // highlights/badges
+  font: string;          // CSS font stack (use Google Fonts)
+}
+Use these suggested values (feel free to tune for contrast; ensure WCAG AA):
+
+ironMan: primary:#D32F2F, background:#0B0F14, surface:#151A21, text:#EEF2F6, accent:#FFC107, font:"Orbitron", system-ui
+hulk: primary:#2E7D32, background:#0A0E0B, surface:#101410, text:#E6F2E7, accent:#A5D6A7, font:"Teko", system-ui
+captainAmerica: primary:#1565C0, background:#0A0D14, surface:#121725, text:#EAF2FF, accent:#D32F2F, font:"Montserrat", system-ui
+spiderMan: primary:#C62828, background:#0A0A0F, surface:#141421, text:#F4F5FF, accent:#1565C0, font:"Bangers", system-ui (for headings) + body fallback
+blackPanther: primary:#6A1B9A, background:#050509, surface:#0F0F18, text:#EEE9FF, accent:#00BFA6, font:"Rajdhani", system-ui
+doctorStrange: primary:#8E24AA, background:#0B0911, surface:#141124, text:#F2E9FF, accent:#FF7043, font:"Cinzel", system-ui (headers) + body fallback
+thor: primary:#B71C1C, background:#0A0A0D, surface:#141419, text:#F2F2F2, accent:#90CAF9, font:"Cinzel Decorative", system-ui
+Apply tokens via CSS variables on <html data-theme="ironMan">…</html>; Tailwind uses those variables.
+
+## Components (create under `/components`)
+ThemeSwitcher.tsx — dropdown grid of hero cards; preview swatch; persists theme; updates data-theme.
+
+EssentialMenu.tsx — dropdown menu with items above; each item triggers:
+
+Add attachment: opens file picker; shows attachment chips in composer.
+Web search: toggles settings.webSearch.
+Voice search: toggles recording UI (stub: fake transcript).
+Image generation: opens Drawer with prompt and “Generate (stub)” button → creates a new assistant bubble with placeholder image.
+Share/Export: exports current chat as .md or .pdf (fake PDF via blob).
+PersonalisedPanel.tsx — collapsible; props bind to settings.persona, settings.music, settings.game, settings.languages[].
+
+ChatBubble.tsx — supports markdown, code blocks, copy button, and attachments.
+
+Composer.tsx — textarea + send/stop + attachment chips.
+
+QuickPrompts.tsx — empty-state chips for one-tap prompts.
+
+## State & Stubs
+Use Zustand or React Context (/lib/state.ts) with:
+
+
+type Persona = 'Maths Tutor'|'Test Cases Generator'|'Finance Analyst'|'Cybersecure Specialist';
+type MusicTool = 'ElevenLabs'|'Suno';
+
+interface Settings {
+  webSearch: boolean;
+  voice: boolean;
+  persona?: Persona;
+  music?: MusicTool;
+  gameMode: boolean;
+  languages: string[];
+  theme: ThemeKey;
+}
+
+interface Message {
+  id: string;
+  role: 'user'|'assistant'|'system';
+  content: string;
+  attachments?: {name:string; type:string; size:number}[];
+  images?: string[]; // data URLs for stubs
+}
+
+interface Store {
+  settings: Settings;
+  messages: Message[];
+  send(message: Partial<Message>): void; // push user message + push fake assistant reply with typing effect
+  stop(): void;
+}
+Implement a typing animation for assistant replies (front-end timer).
+When Persona is set, prepend a small tag above assistant bubbles: “Persona: X”.
+When Translator languages are selected, show tiny badges under the assistant reply (non-functional, front-end only).
+## Keyboard & A11y
+Cmd/Ctrl + K focus composer.
+/ opens/closes Personalised panel.
+T cycles themes.
+Respect prefers-reduced-motion.
+Ensure 4.5:1 contrast for text on surface/background.
+## Visual Style
+Clean, cinematic card style; rounded-2xl; soft shadows.
+Subtle background pattern per theme (CSS radial/linear-gradient).
+Micro-interactions: hover lift on buttons, fade-in bubbles, shimmer skeleton on load.
+Keep personalized controls right below the composer, visually grouped with a label “Personalised”.
+## Pages & Files
+/app/page.tsx — main screen with header, chat column, composer, personalised panel.
+/lib/themes.ts — token map + helpers to set CSS variables.
+/lib/state.ts — Zustand store.
+/styles/globals.css — Tailwind base + CSS variables for theme tokens.
+/components/* — components above.
+## Acceptance Criteria
+Theme switcher (top-left) instantly swaps primary/background/font for all components; persisted.
+“Essential ▾” (top-right) shows all five actions; each performs the specified stub behavior and visibly changes UI/state.
+Personalised panel sits immediately below the text input, not in header or sidebar.
+Chat works end-to-end in the frontend with fake streaming and attachments preview.
+Export creates downloadable .md and .pdf blobs of the current chat (dummy content ok).
+Fully responsive (mobile → desktop), with composer sticky at bottom.
+## Nice-to-have (optional if time allows)
+Draggable attachment chips to reorder.
+Theme-aware code syntax highlighting (via CSS variables).
+Command palette (Cmd/Ctrl+J) exposing all actions.
+Build now. Render a polished, production-quality UI that a user could demo instantly, with all behaviors stubbed on the frontend and clearly visible.
