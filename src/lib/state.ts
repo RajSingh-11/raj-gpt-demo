@@ -342,7 +342,7 @@ const useStore = create<Store>()(
         const { messages } = get();
         const markdown = messages
           .map((msg) => {
-            const role = msg.role === 'user' ? 'You' : 'AKHILGPT';
+            const role = msg.role === 'user' ? 'You' : 'RAJGPT';
             const timestamp = msg.timestamp.toLocaleString();
             return `## ${role} - ${timestamp}\n\n${msg.content}\n`;
           })
@@ -352,7 +352,7 @@ const useStore = create<Store>()(
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `akhilgpt-chat-${new Date().toISOString().split('T')[0]}.md`;
+        a.download = `rajgpt-chat-${new Date().toISOString().split('T')[0]}.md`;
         a.click();
         URL.revokeObjectURL(url);
       },
@@ -361,18 +361,18 @@ const useStore = create<Store>()(
         const { messages } = get();
         const content = messages
           .map((msg) => {
-            const role = msg.role === 'user' ? 'You' : 'AKHILGPT';
+            const role = msg.role === 'user' ? 'You' : 'RAJGPT';
             const timestamp = msg.timestamp.toLocaleString();
             return `${role} - ${timestamp}\n\n${msg.content}\n\n`;
           })
           .join('\n');
 
         // Create a simple text-based "PDF" (actually a text file with PDF extension)
-        const blob = new Blob([`AKHILGPT Chat Export\n\n${content}`], { type: 'application/pdf' });
+        const blob = new Blob([`RAJGPT Chat Export\n\n${content}`], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `akhilgpt-chat-${new Date().toISOString().split('T')[0]}.pdf`;
+        a.download = `rajgpt-chat-${new Date().toISOString().split('T')[0]}.pdf`;
         a.click();
         URL.revokeObjectURL(url);
       },
@@ -435,7 +435,7 @@ const useStore = create<Store>()(
       },
     }),
     {
-      name: 'akhilgpt-store',
+      name: 'rajgpt-store',
       partialize: (state) => ({ settings: state.settings }),
     }
   )

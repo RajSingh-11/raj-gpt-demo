@@ -96,9 +96,9 @@ export default function App() {
         <div className="min-h-screen flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${getComputedStyle(document.documentElement).getPropertyValue('--theme-background')} 0%, #1A1F26 100%)` }}>
           <div className="text-center max-w-md mx-auto px-6">
             <div className="avatar avatar-xl mx-auto mb-6 shadow-2xl">
-              <span className="text-3xl font-bold text-white">A</span>
+              <span className="text-3xl font-bold text-white">R</span>
             </div>
-            <h1 className="text-4xl font-bold mb-4 text-gradient">Welcome to AKHILGPT</h1>
+            <h1 className="text-4xl font-bold mb-4 text-gradient">Welcome to RAJGPT</h1>
             <p className="text-lg leading-relaxed" style={{ color: 'rgba(238, 242, 246, 0.7)' }}>
               Your personal AI assistant with Marvel-inspired themes and advanced capabilities.
             </p>

@@ -120,7 +120,7 @@ export default function Composer({ isInitialState = false }: ComposerProps) {
               settings.gameMode 
                 ? "Type a game idea; builder will scaffold steps..." 
                 : isInitialState
-                ? "Message AKHILGPT..."
+                ? "Message RAJGPT..."
                 : "Type your message..."
             }
             className={`w-full bg-transparent text-white placeholder-white/50 border-none outline-none resize-none ${

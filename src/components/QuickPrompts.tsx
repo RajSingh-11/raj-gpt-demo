@@ -5,12 +5,12 @@ export default function QuickPrompts() {
     <div className="text-center mb-12">
       {/* Hero Avatar */}
       <div className="w-20 h-20 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 mx-auto mb-8 flex items-center justify-center shadow-2xl">
-        <span className="text-3xl font-bold text-white">A</span>
+        <span className="text-3xl font-bold text-white">R</span>
       </div>
       
       {/* Title */}
       <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
-        Hello, I'm AKHILGPT
+        Hello, I'm RAJGPT
       </h1>
       
       {/* Subtitle */}

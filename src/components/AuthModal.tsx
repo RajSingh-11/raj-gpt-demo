@@ -57,11 +57,11 @@ export default function AuthModal({ isOpen, onClose }: AuthModalProps) {
           {/* Header */}
           <div className="text-center mb-8">
             <div className="avatar avatar-xl mx-auto mb-4">
-              <span className="text-2xl font-bold">A</span>
+              <span className="text-2xl font-bold">R</span>
             </div>
             <h2 className="text-2xl font-bold mb-2">
               {mode === 'signin' && 'Welcome Back'}
-              {mode === 'signup' && 'Join AKHILGPT'}
+              {mode === 'signup' && 'Join RAJGPT'}
               {mode === 'reset' && 'Reset Password'}
             </h2>
             <p className="text-gray-400">

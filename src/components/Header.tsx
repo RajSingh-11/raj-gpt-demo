@@ -8,10 +8,10 @@ export default function Header() {
       <div className="max-w-6xl mx-auto flex items-center justify-between">
         <div className="flex items-center gap-4">
           <div className="avatar avatar-md">
-            <span className="text-lg font-bold">A</span>
+            <span className="text-lg font-bold">R</span>
           </div>
           <h1 className="text-xl font-bold text-gradient">
-            AKHILGPT
+            RAJGPT
           </h1>
         </div>
         

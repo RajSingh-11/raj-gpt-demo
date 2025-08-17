@@ -98,12 +98,12 @@ export function applyTheme(theme: ThemeKey) {
   root.setAttribute('data-theme', theme);
   
   // Store in localStorage
-  localStorage.setItem('akhilgpt-theme', theme);
+  localStorage.setItem('rajgpt-theme', theme);
 }
 
 export function getStoredTheme(): ThemeKey {
   if (typeof window === 'undefined') return 'ironMan';
-  return (localStorage.getItem('akhilgpt-theme') as ThemeKey) || 'ironMan';
+  return (localStorage.getItem('rajgpt-theme') as ThemeKey) || 'ironMan';
 }
 
 export function loadGoogleFonts() {
